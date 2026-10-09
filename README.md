@@ -1,5 +1,9 @@
 # Rumoro skill for OpenClaw
 
+[![ClawHub](https://img.shields.io/badge/ClawHub-rumoro-blue)](https://clawhub.ai/markolo10/rumoro)
+[![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
+[![docs](https://img.shields.io/badge/docs-docs.rumoro.dev-blue)](https://docs.rumoro.dev/integrations/openclaw)
+
 [Rumoro](https://rumoro.dev) tracks what people say about your product, your competitors and your topics on Reddit, X, Hacker News, GitHub, YouTube, LinkedIn and more, and scores every mention for relevance, sentiment and intent. This skill lets an OpenClaw agent track keywords, read and triage mentions, set up alerts and read analytics through Rumoro's REST API.
 
 It is published on ClawHub as [`@markolo10/rumoro`](https://clawhub.ai/markolo10/rumoro), from the [`skill/`](skill) folder.

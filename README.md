@@ -2,7 +2,7 @@
 
 [Rumoro](https://rumoro.dev) tracks what people say about your product, your competitors and your topics on Reddit, X, Hacker News, GitHub, YouTube, LinkedIn and more, and scores every mention for relevance, sentiment and intent. This skill lets an OpenClaw agent track keywords, read and triage mentions, set up alerts and read analytics through Rumoro's REST API.
 
-It is published on ClawHub as [`@markolo10/rumoro`](https://clawhub.ai/markolo10/rumoro). The whole skill is [`SKILL.md`](SKILL.md).
+It is published on ClawHub as [`@markolo10/rumoro`](https://clawhub.ai/markolo10/rumoro), from the [`skill/`](skill) folder.
 
 ## Install
 
@@ -28,6 +28,24 @@ openclaw mcp login rumoro
 ```
 
 The [OpenClaw page](https://rumoro.dev/openclaw) walks through both.
+
+## What is in the skill
+
+The published folder is `skill/`:
+
+- `skill/SKILL.md`: what the agent reads first. Setup, how to call the API, the ten rules of the API, which calls answer which request, and what to confirm before acting. Built from Rumoro's live agent guide.
+- `skill/rules/authentication.md` and `cli.md`: hand-written.
+- `skill/rules/keywords.md`, `mentions.md`, `people.md`, `alerts.md`, `analytics.md`, `account.md` and `errors.md`: generated from the API's OpenAPI document. Every endpoint with its CLI command, parameters, body fields and responses, so the reference is always complete.
+
+## Maintaining it
+
+```bash
+node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs          # regenerate the skill
+node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs --check  # fails when a generated file is stale
+npx clawhub@latest skill publish packages/openclaw-skill/skill --slug rumoro --dry-run
+```
+
+The generator fails when an API area has no rule file, and the unit tests fail when a generated file is stale. This repository is published from Rumoro's main codebase.
 
 ## Links
 

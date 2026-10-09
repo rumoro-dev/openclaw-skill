@@ -1,40 +1,27 @@
-# Rumoro skill for OpenClaw
+# Rumoro for OpenClaw
 
-Social listening from plain language. Once installed, OpenClaw can track keywords, search and triage scored mentions, set up Slack, Telegram, email and webhook alerts, read analytics and find the people behind the mentions, through the [Rumoro API](https://docs.rumoro.dev).
+Ask your OpenClaw agent what people say about your product, and let it keep track for you. Rumoro collects posts from Reddit, X, Hacker News, GitHub, Bluesky, LinkedIn, Stack Overflow, DEV, YouTube, TikTok, Instagram and news, and scores each one for how relevant it is to your company.
 
-## Install
+## Get started
 
-```bash
-openclaw skills install @markolo10/rumoro --global
-echo 'RUMORO_API_KEY=ref_...' >> ~/.openclaw/.env
-openclaw gateway restart
-```
+1. Install the skill: `openclaw skills install @markolo10/rumoro --global`
+2. Create an API key at [app.rumoro.dev](https://app.rumoro.dev) (new accounts get $5.80 of free credit) and add it: `echo 'RUMORO_API_KEY=ref_...' >> ~/.openclaw/.env`
+3. Restart the Gateway: `openclaw gateway restart`
 
-Create the key on the API keys page at [app.rumoro.dev](https://app.rumoro.dev). New accounts start with $5.80 of free credit. The guide is at [docs.rumoro.dev/integrations/openclaw](https://docs.rumoro.dev/integrations/openclaw).
+Full guide: [docs.rumoro.dev/integrations/openclaw](https://docs.rumoro.dev/integrations/openclaw)
 
-## Then ask
+## Things to ask
 
-- "Start tracking `acme` as our brand and `globex` as a competitor."
-- "What did people say about us on Hacker News this week? Which ones should I reply to?"
-- "Any complaints or questions about acme in the last 24 hours? Mark the ones I already answered as done."
-- "Send negative mentions to our Slack channel as they come in, and email me a digest every morning at 9."
-- "How did mentions split across platforms over the last 30 days, and how do we compare with globex?"
-- "Who are the ten people with the most reach who mentioned us?"
-- "The classifier keeps flagging posts that aren't about us. Update our company profile so it knows what we sell."
+- "Track driftwood, our deploy tool, and tidewater, our biggest competitor."
+- "Did anyone ask for help with driftwood on Stack Overflow or GitHub this week?"
+- "Show me today's negative mentions and draft a reply to the worst one."
+- "Post new bug reports about driftwood to our #support Slack channel."
+- "Compare our share of voice with tidewater over the last month."
+- "Which people with large followings mentioned us recently?"
+- "We keep getting posts about beach driftwood. Tell the classifier what our product is."
 
-## What is inside
+## How the skill is organised
 
-`SKILL.md` has the setup, the rules of the API and which calls answer which request. `rules/` has one file per area: authentication, keywords, mentions, people and segments, alerts and channels, analytics, account, errors, and the CLI and SDKs. The reference parts are generated from the API's OpenAPI document, so the skill follows the API.
+The agent reads `SKILL.md` first: setup, the conventions every endpoint follows, and a table that maps requests to calls. The files in `rules/` go into detail per area (keywords, mentions, people, alerts, analytics, account, authentication, errors, and the CLI and SDKs). Most of `rules/` is generated from Rumoro's OpenAPI document, so it changes when the API does.
 
-## Platforms
-
-Reddit, X, Hacker News, GitHub, Bluesky, LinkedIn, Stack Overflow, DEV, YouTube, TikTok, Instagram and news.
-
-## Links
-
-- Website: [rumoro.dev](https://rumoro.dev)
-- Docs: [docs.rumoro.dev](https://docs.rumoro.dev)
-- Dashboard: [app.rumoro.dev](https://app.rumoro.dev)
-- Source: [github.com/rumoro-dev/openclaw-skill](https://github.com/rumoro-dev/openclaw-skill)
-
-MIT.
+[rumoro.dev](https://rumoro.dev) · [Docs](https://docs.rumoro.dev) · [Source](https://github.com/rumoro-dev/openclaw-skill) · MIT

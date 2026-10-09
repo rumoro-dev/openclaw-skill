@@ -4,9 +4,9 @@
 [![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![docs](https://img.shields.io/badge/docs-docs.rumoro.dev-blue)](https://docs.rumoro.dev/integrations/openclaw)
 
-[Rumoro](https://rumoro.dev) tracks what people say about your product, your competitors and your topics on Reddit, X, Hacker News, GitHub, YouTube, LinkedIn and more, and scores every mention for relevance, sentiment and intent. This skill lets an OpenClaw agent track keywords, read and triage mentions, set up alerts and read analytics through Rumoro's REST API.
+[Rumoro](https://rumoro.dev) tracks what people say about your product, your competitors and your topics on Reddit, X, Hacker News, GitHub, YouTube, LinkedIn and more, and scores every mention for relevance, sentiment and intent. With this skill, an OpenClaw agent can run Rumoro for you through its REST API: add keywords, go through new mentions, set up alerts and pull reports.
 
-It is published on ClawHub as [`@markolo10/rumoro`](https://clawhub.ai/markolo10/rumoro), from the [`skill/`](skill) folder.
+It's on ClawHub as [`@markolo10/rumoro`](https://clawhub.ai/markolo10/rumoro). What gets published is the [`skill/`](skill) folder.
 
 ## Install
 
@@ -14,49 +14,52 @@ It is published on ClawHub as [`@markolo10/rumoro`](https://clawhub.ai/markolo10
 openclaw skills install @markolo10/rumoro --global
 ```
 
-The skill reads an API key from `RUMORO_API_KEY`. Create a key on the API keys page at [app.rumoro.dev](https://app.rumoro.dev) and put it in `~/.openclaw/.env`, which the Gateway loads:
+The skill needs an API key in `RUMORO_API_KEY`. Create one on the API keys page at [app.rumoro.dev](https://app.rumoro.dev) and add it to `~/.openclaw/.env`, which the Gateway loads:
 
 ```bash
 RUMORO_API_KEY=ref_...
 ```
 
-A `write` key covers everything in the skill. A `read` key can search and read but changes nothing. New accounts start with $5.80 of free credit.
+A `write` key can do everything the skill offers; a `read` key can only look. New accounts start with $5.80 of free credit.
 
 ## Prefer MCP?
 
-OpenClaw can also connect to Rumoro's hosted MCP server with OAuth, so no key is stored:
+OpenClaw can also use Rumoro's hosted MCP server and sign in with OAuth, so no key is stored:
 
 ```bash
 openclaw mcp add rumoro --url https://mcp.rumoro.dev/mcp --transport streamable-http --auth oauth
 openclaw mcp login rumoro
 ```
 
-The [OpenClaw page](https://rumoro.dev/openclaw) walks through both.
+The [OpenClaw page](https://rumoro.dev/openclaw) covers both options.
 
-## What is in the skill
+## Layout
 
-The published folder is `skill/`:
+| Path | Contents | Written by |
+| --- | --- | --- |
+| `skill/SKILL.md` | Setup, API conventions, which request maps to which call | Built from Rumoro's agent guide |
+| `skill/rules/keywords.md` … `account.md`, `errors.md` | One reference file per API area: endpoints, CLI commands, parameters, fields, responses | Generated from the OpenAPI document |
+| `skill/rules/authentication.md`, `cli.md` | Keys and scopes; the CLI and SDKs | By hand |
+| `scripts/generate.mjs` | The generator | By hand |
 
-- `skill/SKILL.md`: what the agent reads first. Setup, how to call the API, the ten rules of the API, which calls answer which request, and what to confirm before acting. Built from Rumoro's live agent guide.
-- `skill/rules/authentication.md` and `cli.md`: hand-written.
-- `skill/rules/keywords.md`, `mentions.md`, `people.md`, `alerts.md`, `analytics.md`, `account.md` and `errors.md`: generated from the API's OpenAPI document. Every endpoint with its CLI command, parameters, body fields and responses, so the reference is always complete.
+## Updating
 
-## Maintaining it
+Regenerate after an API or agent-guide change, and check before a release:
 
 ```bash
-node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs          # regenerate the skill
-node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs --check  # fails when a generated file is stale
-npx clawhub@latest skill publish packages/openclaw-skill/skill --slug rumoro --dry-run
+node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs
+node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs --check
+npx clawhub@latest skill publish packages/openclaw-skill/skill --slug rumoro
 ```
 
-The generator fails when an API area has no rule file, and the unit tests fail when a generated file is stale. This repository is published from Rumoro's main codebase.
+`--check` exits with an error when a generated file is out of date, and the generator refuses to run when an API area has no rule file. This repository is published from Rumoro's main codebase.
 
 ## Links
 
 - Docs: [docs.rumoro.dev/integrations/openclaw](https://docs.rumoro.dev/integrations/openclaw)
-- API reference: [api.rumoro.dev/v1/openapi.json](https://api.rumoro.dev/v1/openapi.json)
+- OpenAPI document: [api.rumoro.dev/v1/openapi.json](https://api.rumoro.dev/v1/openapi.json)
 - Support: markus@rumoro.dev
 
 ## License
 
-This skill is released under the [MIT License](LICENSE). The Rumoro service itself is covered by its [terms](https://rumoro.dev/terms).
+The skill is MIT-licensed ([LICENSE](LICENSE)). Use of the Rumoro service is covered by its [terms](https://rumoro.dev/terms).

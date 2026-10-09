@@ -1,7 +1,6 @@
 // Writes the OpenClaw skill in ../skill from the live agent guide (src/lib/agent-guide.ts) and the API's OpenAPI document
-// (packages/sdk/openapi.json), as the reference's skill does (github.com/mentio-dev/openclaw-skill, MIT): SKILL.md and one
-// rule file per API area are derived, so the skill can't drift from the API. rules/authentication.md and rules/cli.md
-// are hand-written. Run: node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs [--check]
+// (packages/sdk/openapi.json). SKILL.md and one rule file per API area are derived, so the skill can't drift from the
+// API. rules/authentication.md and rules/cli.md are hand-written. Run: node --experimental-strip-types packages/openclaw-skill/scripts/generate.mjs [--check]
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -122,22 +121,22 @@ function renderSkill() {
   };
   const frontmatter = readFileSync(join(HERE, "frontmatter.yml"), "utf8").trim();
   return [frontmatter, "", BANNER, "", "# Rumoro", "",
-    "Rumoro watches developer platforms for the words a company cares about (its product, its competitors, its space), scores every post that contains them for relevance, sentiment and intent, and exposes the result as a REST API. This skill is that API: read the rule file for an area before the first call to it, then call it with curl or the `rumoro` CLI.", "",
+    "Rumoro collects public posts that mention the terms a team tracks, rates each one for relevance, sentiment and intent, and serves the results through a REST API. This skill drives that API with curl or the `rumoro` CLI. Open the matching file in `rules/` before working in an area for the first time.", "",
     `- Base URL: \`${API}/v1\``, "- Auth: `Authorization: Bearer $RUMORO_API_KEY` on every request",
-    `- Contract: \`${API}/v1/openapi.json\` (every operation, field and error)`,
-    "- Docs: https://docs.rumoro.dev (every page is also served as Markdown at `https://docs.rumoro.dev/<page>.mdx`)", "",
+    `- Contract: \`${API}/v1/openapi.json\` lists every operation, field and error`,
+    "- Docs: https://docs.rumoro.dev (add `.mdx` to any page's address for its Markdown)", "",
     "## Setup", "",
-    "The key lives in the `RUMORO_API_KEY` environment variable. When it is unset, or a request answers `401`, stop and tell the user how to fix it:", "",
-    "1. Create a key on the API keys page of the Rumoro dashboard (https://app.rumoro.dev). A `write` key runs the whole skill; a `read` key covers searching, analytics and people but no changes.",
-    "2. `echo 'RUMORO_API_KEY=ref_...' >> ~/.openclaw/.env` (the Gateway loads this file).",
-    "3. `openclaw gateway restart`", "",
-    "Never print the key back, write it into a file the user did not ask for, or send it anywhere but `api.rumoro.dev`. If you are unsure the key works, `GET /v1/keywords` is a cheap check: `401` means the key is wrong, an empty list means nothing is tracked yet.", "",
-    section("How to call the API"), "", section("The API in ten rules"), "", section("What the user asks, what you call"), "", section("Care"), "",
-    "## Rule files", "", "Read the one for the area before the first call to it:", "",
+    "Every request needs a key in `RUMORO_API_KEY`. If it's missing, or a request comes back `401`, stop and walk the user through these steps:", "",
+    "1. Create a key on the API keys page at https://app.rumoro.dev. With `write` scope the whole skill works; with `read` it can search and read analytics and people, but can't change anything.",
+    "2. Add it to the file the Gateway loads: `echo 'RUMORO_API_KEY=ref_...' >> ~/.openclaw/.env`",
+    "3. Restart the Gateway: `openclaw gateway restart`", "",
+    "Don't repeat the key back, store it anywhere the user didn't ask for, or send it to any host but `api.rumoro.dev`. To test a key, `GET /v1/keywords`: `401` means it's wrong, an empty list means nothing is tracked yet.", "",
+    section("Making requests"), "", section("Conventions"), "", section("Requests and the calls behind them"), "", section("Before you act"), "",
+    "## Rule files", "", "Each file covers one area in detail:", "",
     ...AREAS.map((area) => `- [rules/${area.slug}.md](rules/${area.slug}.md): ${area.title.toLowerCase()}`),
     "- [rules/authentication.md](rules/authentication.md): keys, scopes and where they come from",
     "- [rules/errors.md](rules/errors.md): every error code and what to do about the common ones",
-    "- [rules/cli.md](rules/cli.md): the `rumoro` CLI, the TypeScript and Python SDKs, the OpenAPI document"].join("\n") + "\n";
+    "- [rules/cli.md](rules/cli.md): the `rumoro` command line tool, both SDKs and the OpenAPI document"].join("\n") + "\n";
 }
 
 // Every operation must belong to an area, so nothing in the API goes missing from the skill.

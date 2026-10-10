@@ -1,6 +1,6 @@
 ---
 name: rumoro
-description: "Rumoro social listening: track your brand, competitors and topics on Reddit, X, Hacker News, GitHub, Bluesky and more, read and triage scored mentions, set up Slack, Telegram, email and webhook alerts, and read analytics and the people behind the posts. Use when the user asks what people say about their product or a competitor, or names Rumoro."
+description: "Social listening with Rumoro. Follow what people say about your brand, competitors and topics on Reddit, X, Hacker News, GitHub, Bluesky and more. Search and sort scored mentions, send them to Slack, Telegram, email or a webhook, and see trends and who is posting. Use it when the user asks what people say about their product or a competitor, or mentions Rumoro."
 homepage: https://docs.rumoro.dev/integrations/openclaw
 metadata: {"openclaw": {"homepage": "https://docs.rumoro.dev/integrations/openclaw", "primaryEnv": "RUMORO_API_KEY", "requires": {"env": ["RUMORO_API_KEY"]}}}
 ---
